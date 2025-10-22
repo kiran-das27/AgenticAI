@@ -1,0 +1,40 @@
+find_traditional_policies:
+  description: >
+    Find 2–3 of the most recent and relevant traditional life insurance policies in India for the user's profile.
+    Include policy name, term, premium, maturity amount, benefits, and when the policy was launched.
+
+  expected_output: >
+    A structured JSON list of traditional policies with detailed fields: name, premium, term, benefits, maturity amount, etc.
+
+  agent: traditionalPolicyResearcher
+  output_file: output/Traditional_policies.json
+  max_iterations: 3
+
+
+find_marketlinked_policies:
+  description: >
+    Find 2–3 trending ULIPs or market-linked insurance policies in India tailored to the user’s profile.
+    Include investment benefits, premiums, term, and estimated returns.
+
+  expected_output: >
+    A structured JSON list of market-linked policies with detailed fields: name, premium, term, benefits, maturity amount, etc.
+
+  agent: marketlinkedPolicyResearcher
+  output_file: output/MarketLinked_policies.json
+  max_iterations: 3
+
+
+pick_best_policy:
+  description: >
+    Compare traditional and market-linked policies and recommend the best one for the user.
+    Send a push notification with a 1-line summary.
+    Then generate a full report explaining the rationale and rejecting the other policies.
+
+  expected_output: >
+    A short summary of the selected policy, plus a markdown report with the rationale and why other policies were not chosen.
+
+  agent: policyPicker
+  context:
+    - find_traditional_policies
+    - find_marketlinked_policies
+  output_file: output/decision.md
